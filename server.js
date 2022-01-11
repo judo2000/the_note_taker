@@ -7,9 +7,14 @@ const util = require("util");
 const PORT = process.env.port || 3001;
 const app = express();
 
+// Helper method for generating unique ids
+const uuid = require("./helpers/uuid");
+const { json } = require("express");
+
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // server static pages
 app.use(express.static("public"));
@@ -28,6 +33,35 @@ app.get("/notes", (req, res) =>
 // Promise version of fs.readFile
 const readFromFile = util.promisify(fs.readFile);
 
+/**
+ *  Function to write data to the JSON file given a destination and some content
+ *  @param {string} destination The file you want to write to.
+ *  @param {object} content The content you want to write to the file.
+ *  @returns {void} Nothing
+ */
+const writeToFile = (destination, content) =>
+  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
+    err ? console.error(err) : console.info(`\nData written to ${destination}`)
+  );
+
+/**
+ *  Function to read data from a given a file and append some content
+ *  @param {object} content The content you want to append to the file.
+ *  @param {string} file The path to the file you want to save to.
+ *  @returns {void} Nothing
+ */
+const readAndAppend = (content, file) => {
+  fs.readFile(file, "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const parsedData = JSON.parse(data);
+      parsedData.push(content);
+      writeToFile(file, parsedData);
+    }
+  });
+};
+
 // API/Notes route
 app.get("/api/notes", (req, res) => {
   console.info(`${req.method} request received for notes`);
@@ -37,25 +71,26 @@ app.get("/api/notes", (req, res) => {
 // POST Route
 // API/Notes post route to write new notes
 app.post("/api/notes", (req, res) => {
-  // set new note to the body of the post request
-  const newNote = req.body;
+  // Log that a POST request was received
+  console.info(`${req.method} request received to add a review`);
 
-  // Check to see if there are any other notes
-  // if there are no other notes, set the new note id to 1
-  // if there are notes get the length of the notes object
-  // and set the id to notes.length + 1
-  if (notes.length === 0) {
-    newNote.id = 1;
+  // Destructuring assignment for the items in req.body
+  const { title, text } = req.body;
+
+  // If all the required properties are present
+  if (title && text) {
+    // Variable for the object we will save
+    const newNote = {
+      title,
+      text,
+      id: uuid(),
+    };
+
+    readAndAppend(newNote, "./db/db.json");
+    res.json(`Note added successfully`);
   } else {
-    newNote.id = notes[notes.length - 1].id + 1;
+    res.error("Error in adding note");
   }
-
-  // push new note to notes array
-  notes.push(newNote);
-  // call writeNotes function and pass in notes
-  writeNotes(notes);
-  // End the respons process
-  res.end();
 });
 
 // DELETE Route
