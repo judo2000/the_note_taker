@@ -1,6 +1,1 @@
-[
-  { "title": "Test Title", "text": "Test text", "id": 1 },
-  { "title": "Judo Practice", "text": "warm up\n drill\n randori", "id": 2 },
-  { "title": "Posting a note", "text": "This is a new note!", "id": 3 },
-  { "title": "Testing", "text": "Testing again!", "id": 4 }
-]
+[{"title":"Judo Practice","text":"warm up\n drill\n randori","id":2},{"title":"Posting a note","text":"This is a new note!","id":3}]

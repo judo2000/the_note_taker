@@ -58,6 +58,37 @@ app.post("/api/notes", (req, res) => {
   res.end();
 });
 
+// DELETE Route
+// api/notes delete route, to delete notes.
+app.delete("/api/notes/:id", (req, res) => {
+  // get the note id from the query params
+  const noteId = req.params.id;
+
+  // create empty newNotes array
+  let newNotes = [];
+
+  // iterate through notes to check each note for the id of the
+  // note to be deleted.
+  for (const key in notes) {
+    // check to see if there is a note at the current position (key)
+    if (notes.hasOwnProperty(key)) {
+      // check to see if the id of the current object is not equal
+      // to the noteId.  If it is not equal push it to the newNotes array
+      if (notes[key].id !== Number(noteId)) {
+        newNotes.push(notes[key]);
+      }
+    }
+  }
+  // The newNotes array contains every object except the object that
+  // the user is deleting.
+  // Call the writeNotes function passing in newNotes to write the
+  //newNotes to the db.json file
+  writeNotes(newNotes);
+
+  // End the respons process
+  res.end();
+});
+
 // function to write notes to the db.json file
 function writeNotes(newNotes) {
   fs.writeFile("./db/db.json", JSON.stringify(newNotes), (err) => {
