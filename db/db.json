@@ -2,5 +2,7 @@
     {
         "title":"Test Title",
         "text":"Test text"
-    }
+    },
+    {"title":"Judo Practice","text":"warm up\n drill\n randori","id":2},
+    {"title":"Posting a note","text":"This is a new note!","id":3}
 ]
