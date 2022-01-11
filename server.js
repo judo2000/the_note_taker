@@ -34,6 +34,44 @@ app.get('/api/notes', (req, res) => {
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
+// POST Route
+// API/Notes post route to write new notes
+app.post('/api/notes', (req, res) => {
+    // set new note to the body of the post request
+    const newNote = req.body;
+    
+    // Check to see if there are any other notes
+    // if there are no other notes, set the new note id to 1
+    // if there are notes get the length of the notes object
+    // and set the id to notes.length + 1
+    if (notes.length === 0) {
+        newNote.id = 1
+    } else {
+        newNote.id = (notes[notes.length-1].id + 1)
+    }
+
+    // push new note to notes array
+    notes.push(newNote);
+    // call writeNotes function and pass in notes
+    writeNotes(notes);
+    // End the respons process
+    res.end();
+});
+
+// function to write notes to the db.json file
+function writeNotes(newNotes) {
+    fs.writeFile('./db/db.json', JSON.stringify(newNotes), err => {
+        // if there is an error
+        if(err) {
+            console.log(err);
+            return;
+            // when the not file has been written
+        } else {
+            console.log('Your note has been saved!');
+        }
+    });
+}
+
 app.listen(PORT, () =>
     console.log(`Listening at http://localhost:${PORT}!`)
 );
