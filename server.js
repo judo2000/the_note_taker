@@ -4,7 +4,7 @@ const notes = require("./db/db.json");
 const fs = require("fs");
 const util = require("util");
 
-const PORT = process.env.port || 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Helper method for generating unique ids
@@ -133,4 +133,4 @@ app.delete("/api/notes/:id", (req, res) => {
   res.send();
 });
 
-app.listen(PORT, () => console.log(`Listening at http://localhost:${PORT}!`));
+app.listen(PORT);
