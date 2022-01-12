@@ -4,7 +4,7 @@ const notes = require("./db/db.json");
 const fs = require("fs");
 const util = require("util");
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.port || 3001;
 const app = express();
 
 // Helper method for generating unique ids
@@ -110,7 +110,7 @@ app.delete("/api/notes/:id", (req, res) => {
     if (notes.hasOwnProperty(key)) {
       // check to see if the id of the current object is not equal
       // to the noteId.  If it is not equal push it to the newNotes array
-      if (notes[key].id !== Number(noteId)) {
+      if (notes[key].id !== noteId) {
         newNotes.push(notes[key]);
       }
     }
@@ -125,12 +125,12 @@ app.delete("/api/notes/:id", (req, res) => {
       return;
       // when the not file has been written
     } else {
-      console.log("Your notes has been deleted!");
+      console.log("Your notes has been updated!");
     }
   });
 
   // End the respons process
-  res.end();
+  res.send();
 });
 
 app.listen(PORT, () => console.log(`Listening at http://localhost:${PORT}!`));
