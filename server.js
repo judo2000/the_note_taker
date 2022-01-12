@@ -4,7 +4,7 @@ const notes = require("./db/db.json");
 const fs = require("fs");
 const util = require("util");
 
-const PORT = process.env.port || 3001;
+const PORT = process.env.port || 80;
 const app = express();
 
 // Helper method for generating unique ids
