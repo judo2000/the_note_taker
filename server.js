@@ -72,7 +72,7 @@ app.get("/api/notes", (req, res) => {
 // API/Notes post route to write new notes
 app.post("/api/notes", (req, res) => {
   // Log that a POST request was received
-  console.info(`${req.method} request received to add a review`);
+  console.info(`${req.method} request received to add a note`);
 
   // Destructuring assignment for the items in req.body
   const { title, text } = req.body;
@@ -96,6 +96,7 @@ app.post("/api/notes", (req, res) => {
 // DELETE Route
 // api/notes delete route, to delete notes.
 app.delete("/api/notes/:id", (req, res) => {
+  console.info(`${req.method} request received for a note`);
   // get the note id from the query params
   const noteId = req.params.id;
 
@@ -116,16 +117,7 @@ app.delete("/api/notes/:id", (req, res) => {
   }
   // The newNotes array contains every object except the object that
   // the user is deleting.
-  // Call the writeNotes function passing in newNotes to write the
-  //newNotes to the db.json file
-  writeNotes(newNotes);
-
-  // End the respons process
-  res.end();
-});
-
-// function to write notes to the db.json file
-function writeNotes(newNotes) {
+  // Write the newNotes to the db.json file
   fs.writeFile("./db/db.json", JSON.stringify(newNotes), (err) => {
     // if there is an error
     if (err) {
@@ -136,6 +128,9 @@ function writeNotes(newNotes) {
       console.log("Your notes has been updated!");
     }
   });
-}
+
+  // End the respons process
+  res.send();
+});
 
 app.listen(PORT, () => console.log(`Listening at http://localhost:${PORT}!`));
