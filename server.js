@@ -133,4 +133,5 @@ app.delete("/api/notes/:id", (req, res) => {
   res.send();
 });
 
-app.listen(PORT);
+// app.listen(PORT);
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
