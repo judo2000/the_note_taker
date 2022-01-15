@@ -21,7 +21,7 @@ The note taker is an app written in HTML, CSS, and JavaScript that allows the us
 
 ## Deployed
 
-[Live Heroku App](https://judo2000-notes.herokuapp.com/g).
+[Live Heroku App](https://judo2000-notes.herokuapp.com/).
 
 ## Installation Instructions
 
