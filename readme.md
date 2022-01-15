@@ -61,6 +61,6 @@ Email: [judo2000@comcast.net](judo2000@comcast.net)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 [project-name]: The-Note-Taker
-[project-screenshot1]: img/project_screenshot1.png
-[project-screenshot2]: img/project_screenshot3.png
-[project-screenshot3]: img/project_screenshot4.png
+[project-screenshot1]: /img/project_screenshot1.png
+[project-screenshot2]: /img/project_screenshot2.png
+[project-screenshot3]: /img/project_screenshot3.png
